@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProjectTeamManagement21</title>
+
+
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="styles.css">
+
+
+    <!-- Подключаем шрифт -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <!-- ======================================== -->
+    <!-- 1. ЛЕВОЕ МЕНЮ (навигация)                -->
+    <!-- ======================================== -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>🚀 ProjectTeamManagement21</h2>
+            <span class="logo-sub">Система управления проектных групп</span>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item active" data-page="register">
+                <span class="nav-icon">📋</span>
+                <span>Регистрация</span>
+            </li>
+            <li class="nav-item" data-page="passport">
+                <span class="nav-icon">📄</span>
+                <span>Паспорт</span>
+            </li>
+            <li class="nav-item" data-page="progress">
+                <span class="nav-icon">📊</span>
+                <span>Прогресс</span>
+            </li>
+            <li class="nav-item" data-page="tracker">
+                <span class="nav-icon">✅</span>
+                <span>Трекер</span>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="project-info">
+                <span id="current-project-name">Проект не выбран</span>
+                <button id="select-project-btn" class="btn-small">Выбрать</button>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ======================================== -->
+    <!-- 2. ОСНОВНОЙ КОНТЕНТ                      -->
+    <!-- ======================================== -->
+    <main class="main-content">
+
+
+        <!-- ===== СТРАНИЦА 1: РЕГИСТРАЦИЯ КОМАНДЫ ===== -->
+        <section id="page-register" class="page active">
+            <h1>Регистрация команды</h1>
+            <p class="subtitle">Создайте новую проектную группу</p>
+
+            <div class="card">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="team-name">Название команды</label>
+                        <input type="text" id="team-name" placeholder="Например: Космические рейнджеры" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="team-direction">Направление</label>
+                        <input type="text" id="team-direction" placeholder="Например: Аэрокосмическая инженерия" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">🚀 Создать команду</button>
+                </form>
+            </div>
+
+            <!-- Список существующих команд -->
+            <div class="card" style="margin-top: 30px;">
+                <h3>Ваши команды</h3>
+                <div id="teams-list">
+                    <p class="placeholder">Загрузка...</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== СТРАНИЦА 2: ПАСПОРТ ПРОЕКТА ===== -->
+        <section id="page-passport" class="page">
+            <h1>Паспорт проекта</h1>
+            <p class="subtitle">Заполните информацию о проекте</p>
+
+            <div class="card">
+                <p style="color: #888;">Выберите проект из списка, чтобы заполнить его паспорт.</p>
+                <div id="passport-select-project">
+                    <select id="passport-project-select" class="form-control">
+                        <option value="">-- Выберите проект --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Форма паспорта (появится после выбора проекта) -->
+            <div id="passport-form-container" style="display: none;">
+                <div class="card">
+                    <h3>Общая информация</h3>
+                    <div class="form-group">
+                        <label>Сроки реализации</label>
+                        <input type="date" id="p-deadline" class="form-control">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Участники и роли</h3>
+                    <div class="form-group">
+                        <label>Заказчик / Куратор</label>
+                        <input type="text" id="p-customer" placeholder="ООО СберТех" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Руководитель проекта</label>
+                        <input type="text" id="p-project-leader" placeholder="Анна Иванова" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Команда проекта</label>
+                        <input type="text" id="p-team" placeholder="5 разработчиков, 2 дизайнера" class="form-control">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Цели и задачи</h3>
+                    <div class="form-group">
+                        <label>Цель (SMART)</label>
+                        <textarea id="p-goal-smart" rows="3" placeholder="Создать MVP системы управления проектами к декабрю 2026" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Задачи</label>
+                        <textarea id="p-tasks-text" rows="3" placeholder="1. Разработать ТЗ&#10;2. Создать дизайн&#10;3. Написать бэкенд" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Используемые инструменты</h3>
+                    <div class="form-group">
+                        <input type="text" id="p-tools" placeholder="Figma, Python, FastAPI, React" class="form-control">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Ресурсы и ограничения</h3>
+                    <div class="form-group">
+                        <label>Бюджет</label>
+                        <input type="text" id="p-budget" placeholder="500 000 ₽" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Ограничения</label>
+                        <input type="text" id="p-restrictions" placeholder="Жесткие сроки, ограниченный бюджет" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Риски</label>
+                        <input type="text" id="p-risks" placeholder="Низкая квалификация команды" class="form-control">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Ожидаемый результат</h3>
+                    <div class="form-group">
+                        <label>Продукт</label>
+                        <input type="text" id="p-product" placeholder="Веб-приложение для управления проектами" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Показатели (KPI)</label>
+                        <input type="text" id="p-kpi" placeholder="10 активных пользователей, 90% удовлетворённости" class="form-control">
+                    </div>
+                </div>
+
+                <button id="save-passport-btn" class="btn-primary">💾 Сохранить паспорт</button>
+            </div>
+        </section>
+
+
+        <!-- ===== СТРАНИЦА 3: ПРОГРЕСС ===== -->
+        <section id="page-progress" class="page">
+            <h1>Прогресс проекта</h1>
+            <p class="subtitle">Отслеживайте выполнение задач</p>
+
+            <div class="card">
+                <div id="progress-select-project">
+                    <select id="progress-project-select" class="form-control">
+                        <option value="">-- Выберите проект --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="progress-container" style="display: none;">
+                <!-- Круговой индикатор -->
+                <div class="card progress-circle-container">
+                    <div class="progress-circle" id="progress-circle">
+                        <span class="progress-text" id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-details">
+                        <span>Задач выполнено: <strong id="progress-done">0</strong></span>
+                        <span>Всего задач: <strong id="progress-total">0</strong></span>
+                    </div>
+                </div>
+
+                <!-- Список этапов и задач -->
+                <div id="progress-tasks-container">
+                    <p class="placeholder">Выберите проект, чтобы увидеть прогресс</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== СТРАНИЦА 4: ТРЕКЕР ===== -->
+        <section id="page-tracker" class="page">
+            <h1>Трекер задач</h1>
+            <p class="subtitle">Управляйте задачами проекта</p>
+
+            <div class="card">
+                <div id="tracker-select-project">
+                    <select id="tracker-project-select" class="form-control">
+                        <option value="">-- Выберите проект --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="tracker-container" style="display: none;">
+                <div class="card">
+                    <h3>Добавить задачу</h3>
+                    <form id="add-task-form">
+                        <div class="form-group">
+                            <label>Название задачи</label>
+                            <input type="text" id="task-title" placeholder="Например: Сделать дизайн" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Описание</label>
+                            <input type="text" id="task-description" placeholder="Нарисовать макеты в Figma" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Срок выполнения</label>
+                            <input type="date" id="task-deadline" class="form-control">
+                        </div>
+                        <button type="submit" class="btn-primary">➕ Добавить задачу</button>
+                    </form>
+                </div>
+
+                <div id="tracker-tasks-list">
+                    <p class="placeholder">Задач пока нет</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ======================================== -->
+    <!-- 3. МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА ПРОЕКТА     -->
+    <!-- ======================================== -->
+<div class="modal-overlay" id="project-modal">
+    <div class="modal">
+        <h2>📋 Выбрать проект</h2>
+        <p style="color: #666; margin-bottom: 16px;">Выберите проект, с которым хотите работать</p>
+        <div class="form-group">
+            <select id="modal-project-select" class="form-control">
+                <option value="">-- Выберите проект --</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-close" onclick="closeModal()">Отмена</button>
+            <button class="btn-primary" onclick="confirmProjectSelect()">Выбрать</button>
+        </div>
+    </div>
+</div>
+
+
+    <!-- ======================================== -->
+    <!-- 4. ПОДКЛЮЧАЕМ JAVASCRIPT                 -->
+    <!-- ======================================== -->
+    <script src="script.js"></script>
+
+</body>
+</html>
