@@ -10,138 +10,169 @@ def get_all_groups():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-
     cursor.execute("SELECT * FROM groups ORDER BY id DESC")
-
     groups = cursor.fetchall()
-
     conn.close()
-
     return [dict(group) for group in groups]
 
 
-def create_group(name):
+def create_group(data):
     """
-    Создаёт новую группу в базе данных.
-    Принимает: название группы (name)
-    Возвращает: созданную группу с новым id
+    Создаёт новую группу со всеми полями паспорта.
     """
-
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute(
-        "INSERT INTO groups (name) VALUES (?)",
-        (name,)
-    )
+    cursor.execute('''
+        INSERT INTO groups (
+            name, direction, deadline,
+            customer, project_leader, team,
+            goal_smart, tasks_text,
+            tools,
+            budget, restrictions, risks,
+            product, kpi
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        data.get('name'),
+        data.get('direction'),
+        data.get('deadline'),
+        data.get('customer'),
+        data.get('project_leader'),
+        data.get('team'),
+        data.get('goal_smart'),
+        data.get('tasks_text'),
+        data.get('tools'),
+        data.get('budget'),
+        data.get('restrictions'),
+        data.get('risks'),
+        data.get('product'),
+        data.get('kpi')
+    ))
 
     conn.commit()
-
     new_id = cursor.lastrowid
-
     cursor.execute("SELECT * FROM groups WHERE id = ?", (new_id,))
     new_group = cursor.fetchone()
-
     conn.close()
-
     return dict(new_group)
 
 
 def get_group_by_id(group_id):
     """
-    Возвращает ОДНУ группу со всеми её данными:
-    - саму группу
-    - список участников
-    - список задач
-    - список этапов
-
-    Принимает: id группы (group_id)
-    Возвращает: словарь с данными группы или None, если группа не найдена
+    Возвращает группу со всеми данными:
+    - паспорт проекта
+    - участники
+    - задачи
+    - этапы
     """
-
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM groups WHERE id = ?", (group_id,))
     group = cursor.fetchone()
-
     if not group:
         conn.close()
         return None
 
     result = dict(group)
 
-    cursor.execute(
-        "SELECT id, name, role FROM users WHERE group_id = ?",
-        (group_id,)
-    )
+    # Получаем участников
+    cursor.execute("SELECT id, name, phone, role FROM users WHERE group_id = ?", (group_id,))
     users = cursor.fetchall()
     result["members"] = [dict(user) for user in users]
 
-    cursor.execute(
-        "SELECT id, title, description, status, deadline FROM tasks WHERE group_id = ?",
-        (group_id,)
-    )
+    # Получаем задачи
+    cursor.execute("SELECT id, title, description, status, deadline FROM tasks WHERE group_id = ?", (group_id,))
     tasks = cursor.fetchall()
     result["tasks"] = [dict(task) for task in tasks]
 
-    cursor.execute(
-        "SELECT id, name, is_done FROM stages WHERE group_id = ?",
-        (group_id,)
-    )
+    # Получаем этапы
+    cursor.execute("SELECT id, name, is_done FROM stages WHERE group_id = ?", (group_id,))
     stages = cursor.fetchall()
     result["stages"] = [dict(stage) for stage in stages]
 
     conn.close()
-
     return result
+
+
+def update_group(group_id, data):
+    """
+    Обновляет данные группы.
+    Принимает словарь с полями, которые нужно обновить.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Список всех полей, которые можно обновлять
+    allowed_fields = [
+        'name', 'direction', 'deadline',
+        'customer', 'project_leader', 'team',
+        'goal_smart', 'tasks_text',
+        'tools',
+        'budget', 'restrictions', 'risks',
+        'product', 'kpi'
+    ]
+
+    updates = []
+    values = []
+
+    for field in allowed_fields:
+        if field in data and data[field] is not None:
+            updates.append(f"{field} = ?")
+            values.append(data[field])
+
+    if not updates:
+        conn.close()
+        return get_group_by_id(group_id)
+
+    values.append(group_id)
+    query = f"UPDATE groups SET {', '.join(updates)} WHERE id = ?"
+    cursor.execute(query, values)
+    conn.commit()
+    conn.close()
+
+    return get_group_by_id(group_id)
 
 
 # ===== 2. ФУНКЦИИ ДЛЯ РАБОТЫ С УЧАСТНИКАМИ =====
 
-def add_user(name, role, group_id):
-    """
-    Добавляет нового участника в указанную группу.
-
-    Принимает: имя, роль, id группы
-    Возвращает: созданного участника с новым id
-    """
-
+def add_user(name, phone, role, group_id):
+    """Добавляет участника в группу"""
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO users (name, role, group_id) VALUES (?, ?, ?)",
-        (name, role, group_id)
+        "INSERT INTO users (name, phone, role, group_id) VALUES (?, ?, ?, ?)",
+        (name, phone, role, group_id)
     )
     conn.commit()
 
     new_id = cursor.lastrowid
-
     cursor.execute("SELECT * FROM users WHERE id = ?", (new_id,))
     new_user = cursor.fetchone()
     conn.close()
-
     return dict(new_user)
+
+
+def delete_user(user_id):
+    """Удаляет участника"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+    conn.commit()
+    conn.close()
+    return {"message": "Участник удалён"}
 
 
 # ===== 3. ФУНКЦИИ ДЛЯ РАБОТЫ С ЗАДАЧАМИ =====
 
 def add_task(title, description, deadline, group_id):
-    """
-    Создаёт новую задачу в указанной группе.
-
-    Принимает: название, описание (может быть None), срок, id группы
-    Возвращает: созданную задачу с новым id
-    """
-
+    """Создаёт новую задачу"""
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        """INSERT INTO tasks 
-           (title, description, deadline, group_id) 
-           VALUES (?, ?, ?, ?)""",
+        "INSERT INTO tasks (title, description, deadline, group_id) VALUES (?, ?, ?, ?)",
         (title, description, deadline, group_id)
     )
     conn.commit()
@@ -150,18 +181,11 @@ def add_task(title, description, deadline, group_id):
     cursor.execute("SELECT * FROM tasks WHERE id = ?", (new_id,))
     new_task = cursor.fetchone()
     conn.close()
-
     return dict(new_task)
 
 
 def update_task_status(task_id, new_status):
-    """
-    Обновляет статус задачи.
-
-    Принимает: id задачи, новый статус ('pending' или 'completed')
-    Возвращает: обновлённую задачу
-    """
-
+    """Обновляет статус задачи"""
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -173,25 +197,27 @@ def update_task_status(task_id, new_status):
 
     cursor.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
     updated_task = cursor.fetchone()
-
     conn.close()
 
     if not updated_task:
         return None
-
     return dict(updated_task)
+
+
+def delete_task(task_id):
+    """Удаляет задачу"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+    conn.commit()
+    conn.close()
+    return {"message": "Задача удалена"}
 
 
 # ===== 4. ФУНКЦИИ ДЛЯ РАБОТЫ С ЭТАПАМИ =====
 
 def add_stage(name, group_id):
-    """
-    Создаёт новый этап для указанной группы.
-
-    Принимает: название этапа, id группы
-    Возвращает: созданный этап с новым id
-    """
-
+    """Создаёт новый этап"""
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -205,18 +231,11 @@ def add_stage(name, group_id):
     cursor.execute("SELECT * FROM stages WHERE id = ?", (new_id,))
     new_stage = cursor.fetchone()
     conn.close()
-
     return dict(new_stage)
 
 
 def update_stage_status(stage_id, is_done):
-    """
-    Обновляет статус этапа (выполнен/не выполнен).
-
-    Принимает: id этапа, 1 (выполнен) или 0 (не выполнен)
-    Возвращает: обновлённый этап
-    """
-
+    """Обновляет статус этапа"""
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -232,20 +251,28 @@ def update_stage_status(stage_id, is_done):
 
     if not updated_stage:
         return None
-
     return dict(updated_stage)
+
+
+def delete_stage(stage_id):
+    """Удаляет этап"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM stages WHERE id = ?", (stage_id,))
+    conn.commit()
+    conn.close()
+    return {"message": "Этап удалён"}
 
 
 # ===== 5. ФУНКЦИЯ ДЛЯ ПРОГРЕССА =====
 
 def get_progress(group_id):
     """
-    Считает, сколько задач выполнено, а сколько всего.
-
-    Принимает: id группы
-    Возвращает: словарь {"total": кол-во_всех, "done": кол-во_выполненных}
+    Возвращает прогресс
+    total - общее количество задач
+    done - количество выполненных задач
+    percent - процент выполнения
     """
-
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -263,4 +290,13 @@ def get_progress(group_id):
 
     conn.close()
 
-    return {"total": total, "done": done}
+    if total == 0:
+        percent = 0
+    else:
+        percent = int((done / total) * 100)
+
+    return {
+        "total": total,
+        "done": done,
+        "percent": percent
+    }
