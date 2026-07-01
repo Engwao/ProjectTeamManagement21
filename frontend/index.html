@@ -1,286 +1,630 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProjectTeamManagement21</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjectTeamManagement21</title>
 
+  <!-- Премиум шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Подключаем стили -->
-    <link rel="stylesheet" href="styles.css">
+  <!-- Таблица стилей -->
+  <link rel="stylesheet" href="/frontend/styles.css">
 
-
-    <!-- Подключаем шрифт -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN для автономной работы без компилятора Node.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              lime: '#CBE857',
+              violet: '#C68DFF',
+              dark: '#323843',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
+<body class="bg-[#FCFDFE] text-[#323843] font-sans overflow-x-hidden min-h-screen">
 
+  <!-- Декоративные фоновые штрихи -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <!-- Верхний левый салатовый штрих -->
+    <svg class="absolute -top-16 -left-20 w-[420px] h-[320px] text-[#CBE857] opacity-80 select-none animate-float-slow" viewBox="0 0 400 300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0,150 Q 40,80 120,50 T 280,30 Q 340,35 380,60 Q 360,90 290,110 T 140,160 Q 70,210 0,150 Z" />
+    </svg>
+    <!-- Нижний правый фиолетовый штрих -->
+    <svg class="absolute -bottom-20 -right-20 w-[480px] h-[380px] text-[#C68DFF] opacity-75 select-none animate-float-slower" viewBox="0 0 450 350" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 100,320 Q 180,260 260,250 T 420,290 Q 450,220 380,180 T 200,190 Q 120,230 100,320 Z" />
+    </svg>
+  </div>
 
-    <!-- ======================================== -->
-    <!-- 1. ЛЕВОЕ МЕНЮ (навигация)                -->
-    <!-- ======================================== -->
-    <nav class="sidebar">
-        <div class="logo">
-            <h2>🚀 ProjectTeamManagement21</h2>
-            <span class="logo-sub">Система управления проектных групп</span>
+  <!-- Основная сетка макета: Сайд-бар + Контент -->
+  <div class="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-0">
+
+    <!-- 1. ЛЕВАЯ НАВИГАЦИОННАЯ ПАНЕЛЬ -->
+    <aside class="bg-white border-r-4 border-[#323843] flex flex-col justify-between p-6 lg:sticky lg:top-0 lg:h-screen">
+      <div>
+        <!-- Шапка с логотипом -->
+        <div class="mb-10 text-center lg:text-left">
+          <div class="flex items-center gap-2 justify-center lg:justify-start">
+            <span class="text-2xl">🚀</span>
+            <h1 class="font-display font-black text-xl tracking-widest text-[#323843]">
+              TEAM<span class="text-[#C68DFF]">.</span>CONTROL
+            </h1>
+          </div>
+          <p class="text-[10px] font-mono font-bold tracking-wider text-gray-400 mt-1 uppercase">
+            Система управления проектных групп
+          </p>
         </div>
 
-        <ul class="nav-menu">
-            <li class="nav-item active" data-page="register">
-                <span class="nav-icon">📋</span>
-                <span>Регистрация</span>
-            </li>
-            <li class="nav-item" data-page="passport">
-                <span class="nav-icon">📄</span>
-                <span>Паспорт</span>
-            </li>
-            <li class="nav-item" data-page="progress">
-                <span class="nav-icon">📊</span>
-                <span>Прогресс</span>
-            </li>
-            <li class="nav-item" data-page="tracker">
-                <span class="nav-icon">✅</span>
-                <span>Трекер</span>
-            </li>
-        </ul>
+        <!-- Меню навигации -->
+        <nav class="flex flex-col gap-2">
+          <button id="menu-btn-register" class="nav-item active flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-register">
+            <span class="text-base shrink-0">📋</span>
+            <span>Регистрация</span>
+          </button>
+          <button id="menu-btn-passport" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-passport">
+            <span class="text-base shrink-0">📄</span>
+            <span>Паспорт проекта</span>
+          </button>
+          <button id="menu-btn-progress" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-progress">
+            <span class="text-base shrink-0">📊</span>
+            <span>Прогресс</span>
+          </button>
+          <button id="menu-btn-tracker" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-tracker">
+            <span class="text-base shrink-0">✅</span>
+            <span>Трекер задач</span>
+          </button>
+        </nav>
+      </div>
 
-        <div class="sidebar-footer">
-            <div class="project-info">
-                <span id="current-project-name">Проект не выбран</span>
-                <button id="select-project-btn" class="btn-small">Выбрать</button>
-            </div>
+      <!-- Подвал сайд-бара: Карточка переключения активного проекта -->
+      <div class="mt-8 pt-6 border-t-2 border-gray-100">
+        <div class="bg-[#F8F9FA] p-4 rounded-2xl border-2 border-[#323843]/10 text-center lg:text-left">
+          <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-gray-400 block mb-1">
+            Активный проект
+          </span>
+          <div id="sidebar-project-name" class="font-display font-bold text-sm text-[#323843] line-clamp-1 mb-3">
+            Проект не выбран
+          </div>
+          <button id="select-project-trigger" class="w-full bg-[#323843] text-white font-display font-bold text-xs py-2 rounded-xl hover:bg-[#323843]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
+            Выбрать проект
+          </button>
         </div>
-    </nav>
+      </div>
+    </aside>
 
+    <!-- 2. ОСНОВНАЯ ОБЛАСТЬ КОНТЕНТА -->
+    <main class="p-6 lg:p-10 max-w-6xl mx-auto w-full min-h-screen">
 
-    <!-- ======================================== -->
-    <!-- 2. ОСНОВНОЙ КОНТЕНТ                      -->
-    <!-- ======================================== -->
-    <main class="main-content">
+      <!-- ===== РАЗДЕЛ 1: РЕГИСТРАЦИЯ ===== -->
+      <section id="page-register" class="page-view flex flex-col gap-8">
+        <!-- Шапка раздела -->
+        <div class="text-center sm:text-left">
+          <span class="text-xs font-mono font-black tracking-widest text-[#C68DFF] uppercase bg-[#C68DFF]/10 px-3 py-1 rounded-full">
+            Управление составом
+          </span>
+          <h2 class="text-3xl lg:text-4xl font-display font-black tracking-tight text-[#323843] mt-2.5 uppercase">
+            Регистрация команды
+          </h2>
+          <p class="text-xs text-gray-500 mt-1">
+            Создайте новые проектные группы и укомплектуйте состав участников
+          </p>
+        </div>
 
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Левая колонка: Форма создания команды -->
+          <div class="lg:col-span-5 bg-[#323843] text-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] relative overflow-hidden">
+            <h3 class="font-display font-black text-lg tracking-wider text-[#CBE857] uppercase mb-6">
+              Регистрация команд
+            </h3>
+            <form id="team-form" class="flex flex-col gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label for="team-name" class="text-[10px] font-mono tracking-widest text-[#CBE857] font-bold uppercase">
+                  Название команды
+                </label>
+                <input type="text" id="team-name" placeholder="Напр., Космические рейнджеры" required
+                  class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-sm font-sans focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-500">
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label for="team-direction" class="text-[10px] font-mono tracking-widest text-[#CBE857] font-bold uppercase">
+                  Направление
+                </label>
+                <input type="text" id="team-direction" placeholder="Напр., Аэрокосмическая инженерия" required
+                  class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-sm font-sans focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-500">
+              </div>
+              <button type="submit" class="mt-2 w-full bg-[#CBE857] text-[#323843] font-display font-bold tracking-wider py-3.5 rounded-xl hover:bg-[#CBE857]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase text-xs">
+                🚀 Создать команду
+              </button>
+            </form>
+          </div>
 
-        <!-- ===== СТРАНИЦА 1: РЕГИСТРАЦИЯ КОМАНДЫ ===== -->
-        <section id="page-register" class="page active">
-            <h1>Регистрация команды</h1>
-            <p class="subtitle">Создайте новую проектную группу</p>
-
-            <div class="card">
-                <form id="register-form">
-                    <div class="form-group">
-                        <label for="team-name">Название команды</label>
-                        <input type="text" id="team-name" placeholder="Например: Космические рейнджеры" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="team-direction">Направление</label>
-                        <input type="text" id="team-direction" placeholder="Например: Аэрокосмическая инженерия" required>
-                    </div>
-
-                    <button type="submit" class="btn-primary">🚀 Создать команду</button>
-                </form>
-            </div>
-
+          <!-- Правая колонка: Рабочая область команд и участников -->
+          <div class="lg:col-span-7 flex flex-col gap-6">
             <!-- Список существующих команд -->
-            <div class="card" style="margin-top: 30px;">
-                <h3>Ваши команды</h3>
-                <div id="teams-list">
-                    <p class="placeholder">Загрузка...</p>
-                </div>
+            <div class="bg-white p-6 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843]">
+              <h3 class="font-display font-black text-base text-[#323843] uppercase tracking-wide mb-4">
+                Проектные группы (<span id="team-count" class="font-mono text-[#C68DFF]">0</span>)
+              </h3>
+              <div id="teams-list" class="flex flex-col gap-3 max-h-[260px] overflow-y-auto pr-2">
+                <!-- Динамически заполняемый список команд -->
+                <p class="text-sm text-gray-400 italic">Загрузка проектов...</p>
+              </div>
             </div>
-        </section>
 
+            <!-- Активный список участников команды -->
+            <div id="active-team-card" class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] hidden transition-all duration-300">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b-2 border-gray-100 pb-4 mb-6 gap-4">
+                <div>
+                  <span class="inline-block text-[9px] font-mono font-bold uppercase tracking-widest bg-[#C68DFF]/15 text-[#C68DFF] px-2.5 py-1 rounded-full mb-1">
+                    Участники группы
+                  </span>
+                  <h3 id="active-team-title" class="font-display font-black text-xl text-[#323843] tracking-tight uppercase">
+                    Команда
+                  </h3>
+                  <p id="active-team-dir" class="text-xs text-gray-400 mt-0.5">
+                    Направление
+                  </p>
+                </div>
+                <button id="add-member-trigger" class="bg-[#323843] text-white hover:bg-[#323843]/90 font-display font-bold text-xs px-4 py-2.5 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0">
+                  + Добавить участника
+                </button>
+              </div>
 
-        <!-- ===== СТРАНИЦА 2: ПАСПОРТ ПРОЕКТА ===== -->
-        <section id="page-passport" class="page">
-            <h1>Паспорт проекта</h1>
-            <p class="subtitle">Заполните информацию о проекте</p>
+              <div>
+                <h4 class="text-[10px] font-mono font-bold tracking-wider text-gray-400 uppercase mb-4">
+                  Состав команды (<span id="members-count">0</span>)
+                </h4>
+                <div id="members-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[300px] overflow-y-auto pr-1">
+                  <!-- Динамически заполняемый состав участников -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div class="card">
-                <p style="color: #888;">Выберите проект из списка, чтобы заполнить его паспорт.</p>
-                <div id="passport-select-project">
-                    <select id="passport-project-select" class="form-control">
-                        <option value="">-- Выберите проект --</option>
+      <!-- ===== РАЗДЕЛ 2: ПАСПОРТ ПРОЕКТА ===== -->
+      <section id="page-passport" class="page-view flex flex-col gap-8 hidden">
+        <!-- Шапка раздела -->
+        <div class="text-center sm:text-left flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <span class="text-xs font-mono font-black tracking-widest text-[#C68DFF] uppercase bg-[#C68DFF]/10 px-3 py-1 rounded-full">
+              Документация
+            </span>
+            <h2 class="text-3xl lg:text-4xl font-display font-black tracking-tight text-[#323843] mt-2.5 uppercase">
+              Паспорт проекта
+            </h2>
+            <p class="text-xs text-gray-500 mt-1">
+              Заполните официальные реквизиты, цели, ресурсы и ограничения вашего проекта
+            </p>
+          </div>
+          <div id="passport-save-success" class="bg-[#CBE857] text-[#323843] text-xs font-bold px-4 py-2 rounded-xl border-2 border-[#323843] shadow-sm animate-fade-in flex items-center gap-1.5 hidden">
+            ✨ Паспорт сохранен!
+          </div>
+        </div>
+
+        <!-- Предупреждение, если команда не выбрана -->
+        <div id="passport-empty-state" class="bg-white p-12 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] max-w-lg mx-auto text-center flex flex-col items-center gap-4">
+          <span class="text-4xl animate-bounce">⚠️</span>
+          <h3 class="text-xl font-display font-bold text-[#323843]">Проект не выбран</h3>
+          <p class="text-sm text-gray-500">
+            Пожалуйста, выберите или зарегистрируйте команду во вкладке <strong>Регистрация</strong> или воспользуйтесь переключателем в сайд-баре!
+          </p>
+        </div>
+
+        <!-- Контейнер формы паспорта -->
+        <form id="passport-form" class="flex flex-col gap-8 hidden max-w-4xl">
+          <!-- БЛОК 1: ОБЩАЯ ИНФОРМАЦИЯ -->
+          <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
+            <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
+              <span class="text-xl">📅</span>
+              <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
+                Общая информация
+              </h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-2">
+                <label class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Название проекта
+                </label>
+                <input type="text" id="pass-name" disabled
+                  class="w-full bg-[#EDEDED] text-gray-400 border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-medium cursor-not-allowed">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-deadline" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Сроки реализации (дедлайн)
+                </label>
+                <input type="date" id="pass-deadline"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+            </div>
+          </div>
+
+          <!-- БЛОК 2: УЧАСТНИКИ И РОЛИ -->
+          <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
+            <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
+              <span class="text-xl">👥</span>
+              <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
+                Участники и роли
+              </h3>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-2">
+                <label for="pass-customer" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Заказчик / Куратор
+                  <span class="text-[9px] text-gray-400 font-normal lowercase block">
+                    (лицо или организация, финансирующие проект и утверждающие результат)
+                  </span>
+                </label>
+                <input type="text" id="pass-customer" placeholder="ООО СберТех, ОАО КосмоГрупп"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-leader" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Руководитель проекта
+                </label>
+                <input type="text" id="pass-leader" placeholder="ФИО руководителя"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-team" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Команда проекта
+                </label>
+                <input type="text" id="pass-team" placeholder="5 разработчиков, 2 дизайнера"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+            </div>
+          </div>
+
+          <!-- БЛОК 3: ЦЕЛИ И ЗАДАЧИ -->
+          <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
+            <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
+              <span class="text-xl">🎯</span>
+              <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
+                Цели и задачи
+              </h3>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-2">
+                <label for="pass-goal" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Цель (SMART)
+                </label>
+                <textarea id="pass-goal" rows="3" placeholder="Специфичная, измеримая, достижимая цель..."
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all resize-none"></textarea>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-tasks" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Основные задачи проекта
+                </label>
+                <textarea id="pass-tasks" rows="4" placeholder="1. Провести аудит&#10;2. Создать дизайн"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all resize-none"></textarea>
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-tools" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Используемые инструменты
+                </label>
+                <input type="text" id="pass-tools" placeholder="Figma, React, FastApi, PostgreSQL"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+            </div>
+          </div>
+
+          <!-- БЛОК 4: РЕСУРСЫ И ОГРАНИЧЕНИЯ -->
+          <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
+            <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
+              <span class="text-xl">⚠️</span>
+              <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
+                Ресурсы и ограничения
+              </h3>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-2">
+                <label for="pass-budget" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Бюджет проекта
+                </label>
+                <input type="text" id="pass-budget" placeholder="500 000 ₽"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-restrictions" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Ограничения
+                </label>
+                <input type="text" id="pass-restrictions" placeholder="Жесткий дедлайн, отсутствие очных встреч"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-risks" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Риски проекта
+                </label>
+                <input type="text" id="pass-risks" placeholder="Возможные задержки поставок"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+            </div>
+          </div>
+
+          <!-- БЛОК 5: ОЖИДАЕМЫЙ РЕЗУЛЬТАТ -->
+          <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
+            <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
+              <span class="text-xl">📊</span>
+              <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
+                Ожидаемый результат
+              </h3>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-2">
+                <label for="pass-product" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Продукт (конкретный материальный или нематериальный итог)
+                </label>
+                <input type="text" id="pass-product" placeholder="Интерактивное веб-приложение"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label for="pass-kpi" class="text-[10px] font-mono tracking-widest text-[#323843] font-bold uppercase">
+                  Показатели (KPI)
+                </label>
+                <input type="text" id="pass-kpi" placeholder="100% покрытие тестами, NPS > 70%"
+                  class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-5 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#CBE857] focus:bg-white transition-all">
+              </div>
+            </div>
+          </div>
+
+          <!-- Кнопка сохранения паспорта, соответствующая "ГОТОВО" на экране 7 -->
+          <div class="flex justify-center mt-4">
+            <button type="submit" id="save-passport-btn" class="bg-[#CBE857] text-[#323843] font-display font-black tracking-widest px-16 py-4.5 rounded-2xl border-4 border-[#323843] hover:bg-[#CBE857]/90 hover:scale-105 active:scale-95 transition-all cursor-pointer text-sm uppercase shadow-xl flex items-center gap-2">
+              <span>💾</span> ГОТОВО
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== РАЗДЕЛ 3: ПРОГРЕСС ===== -->
+      <section id="page-progress" class="page-view flex flex-col gap-8 hidden">
+        <!-- Шапка раздела -->
+        <div class="text-center sm:text-left">
+          <span class="text-xs font-mono font-black tracking-widest text-[#C68DFF] uppercase bg-[#C68DFF]/10 px-3 py-1 rounded-full">
+            Мониторинг
+          </span>
+          <h2 class="text-3xl lg:text-4xl font-display font-black tracking-tight text-[#323843] mt-2.5 uppercase flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
+            <span>Прогресс проекта</span>
+            <span id="progress-percent" class="text-[#C68DFF] font-mono">0%</span>
+          </h2>
+          <p class="text-xs text-gray-500 mt-1">
+            Текущие успехи и стадии разработки проекта группы <strong id="progress-team-name" class="text-[#323843]">-</strong>
+          </p>
+        </div>
+
+        <!-- Предупреждение, если команда не выбрана -->
+        <div id="progress-empty-state" class="bg-white p-12 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] max-w-lg mx-auto text-center flex flex-col items-center gap-4">
+          <span class="text-4xl animate-bounce">⚠️</span>
+          <h3 class="text-xl font-display font-bold text-[#323843]">Проект не выбран</h3>
+          <p class="text-sm text-gray-500">
+            Пожалуйста, выберите или зарегистрируйте команду во вкладке <strong>Регистрация</strong>!
+          </p>
+        </div>
+
+        <!-- Progress Metrics and Stage List -->
+        <div id="progress-active-container" class="flex flex-col gap-8 hidden max-w-4xl">
+          <!-- Основная карточка шкалы прогресса (макет экрана 8 Figma) -->
+          <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843]">
+            <div class="relative w-full h-12 bg-[#323843] rounded-full overflow-hidden p-1.5 border-2 border-[#323843] shadow-inner">
+              <div id="progress-fill" class="h-full rounded-full bg-gradient-to-r from-[#CBE857] to-[#C68DFF] transition-all duration-500 ease-out flex items-center justify-end pr-4 min-w-[2.5rem]" style="width: 0%;">
+                <span id="progress-inner-percent" class="text-[#323843] font-mono text-[10px] font-black tracking-widest bg-white/90 px-2 py-0.5 rounded-full uppercase shadow-sm">
+                  0%
+                </span>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-xs text-gray-500 font-mono font-semibold uppercase tracking-wider">
+              <div class="flex items-center gap-2">
+                <span>🟢</span>
+                <span>Выполнено задач: <strong id="completed-tasks-count" class="text-[#323843] font-sans text-sm">0</strong></span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span>📋</span>
+                <span>Всего задач в трекере: <strong id="total-tasks-count" class="text-[#323843] font-sans text-sm">0</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Чек-лист этапов и задач -->
+          <div id="progress-stages-list" class="flex flex-col gap-6">
+            <!-- Динамически заполняемые этапы и задачи со специальными круглыми индикаторами выполнения -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== РАЗДЕЛ 4: ТРЕКЕР ЗАДАЧ ===== -->
+      <section id="page-tracker" class="page-view flex flex-col gap-8 hidden">
+        <!-- Шапка раздела -->
+        <div class="text-center sm:text-left">
+          <span class="text-xs font-mono font-black tracking-widest text-[#C68DFF] uppercase bg-[#C68DFF]/10 px-3 py-1 rounded-full">
+            Контроль задач
+          </span>
+          <h2 class="text-3xl lg:text-4xl font-display font-black tracking-tight text-[#323843] mt-2.5 uppercase">
+            Трекер задач
+          </h2>
+          <p class="text-xs text-gray-500 mt-1">
+            Создавайте этапы проекта, планируйте новые задачи и контролируйте их выполнение
+          </p>
+        </div>
+
+        <!-- Предупреждение, если команда не выбрана -->
+        <div id="tracker-empty-state" class="bg-white p-12 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] max-w-lg mx-auto text-center flex flex-col items-center gap-4">
+          <span class="text-4xl animate-bounce">⚠️</span>
+          <h3 class="text-xl font-display font-bold text-[#323843]">Проект не выбран</h3>
+          <p class="text-sm text-gray-500">
+            Пожалуйста, выберите или зарегистрируйте команду во вкладке <strong>Регистрация</strong>!
+          </p>
+        </div>
+
+        <!-- Рабочая область для отслеживания задач -->
+        <div id="tracker-active-container" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start hidden">
+          <!-- Левая колонка: Формы добавления этапа и задачи -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <!-- Форма добавления этапа -->
+            <div class="bg-white p-6 rounded-[32px] border-2 border-[#323843]/10 shadow-md">
+              <h3 class="text-sm font-display font-black text-[#323843] uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span>📁</span> Создать этап проекта
+              </h3>
+              <form id="stage-form" class="flex gap-2">
+                <input type="text" id="stage-name-input" placeholder="Напр., Верстка интерфейса" required
+                  class="flex-1 bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#C68DFF] focus:bg-white transition-all font-sans">
+                <button type="submit" class="bg-[#323843] text-white hover:bg-[#323843]/90 px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 cursor-pointer">
+                  ➕
+                </button>
+              </form>
+            </div>
+
+            <!-- Форма добавления задачи -->
+            <div class="bg-[#323843] text-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] relative overflow-hidden">
+              <h3 class="font-display font-black text-base text-[#CBE857] uppercase tracking-wider mb-5 flex items-center gap-2">
+                <span>✍️</span> Новая задача
+              </h3>
+              <form id="task-form" class="flex flex-col gap-4">
+                <div class="flex flex-col gap-1.5">
+                  <label for="task-title-input" class="text-[9px] font-mono tracking-widest text-[#CBE857] font-bold uppercase">
+                    Название задачи
+                  </label>
+                  <input type="text" id="task-title-input" placeholder="Сверстать карточки участников" required
+                    class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-sm font-sans focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-500">
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label for="task-desc-input" class="text-[9px] font-mono tracking-widest text-[#CBE857] font-bold uppercase">
+                    Описание (опционально)
+                  </label>
+                  <textarea id="task-desc-input" rows="2" placeholder="Добавить hover эффекты..."
+                    class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-sm font-sans focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-500 resize-none"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="flex flex-col gap-1.5">
+                    <label for="task-deadline-input" class="text-[9px] font-mono tracking-widest text-[#CBE857] font-bold uppercase">
+                      Дедлайн
+                    </label>
+                    <input type="date" id="task-deadline-input"
+                      class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-xs font-sans focus:outline-none focus:border-[#CBE857] transition-all">
+                  </div>
+                  <div class="flex flex-col gap-1.5">
+                    <label for="task-stage-select" class="text-[9px] font-mono tracking-widest text-[#CBE857] font-bold uppercase">
+                      Этап проекта
+                    </label>
+                    <select id="task-stage-select"
+                      class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-xs font-sans focus:outline-none focus:border-[#CBE857] transition-all">
+                      <option value="">Без этапа</option>
                     </select>
+                  </div>
                 </div>
+                <button type="submit" class="mt-2 w-full bg-[#CBE857] text-[#323843] font-display font-bold tracking-wider py-3.5 rounded-xl hover:bg-[#CBE857]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase text-xs">
+                  ➕ Создать задачу
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Правая колонка: Список колонок -->
+          <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col min-h-[500px]">
+            <div class="border-b-2 border-gray-100 pb-4 mb-4">
+              <span class="text-[9px] font-mono font-bold tracking-widest text-[#C68DFF] uppercase bg-[#C68DFF]/15 px-2.5 py-1 rounded-full">
+                Доска контроля
+              </span>
+              <h3 class="text-xl font-display font-black text-[#323843] mt-2.5 uppercase leading-none">
+                Управление задачами
+              </h3>
+              <p class="text-xs text-gray-400 mt-1">
+                Контролируйте статусы выполнения и сроки задач по этапам
+              </p>
             </div>
 
-            <!-- Форма паспорта (появится после выбора проекта) -->
-            <div id="passport-form-container" style="display: none;">
-                <div class="card">
-                    <h3>Общая информация</h3>
-                    <div class="form-group">
-                        <label>Сроки реализации</label>
-                        <input type="date" id="p-deadline" class="form-control">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Участники и роли</h3>
-                    <div class="form-group">
-                        <label>Заказчик / Куратор</label>
-                        <input type="text" id="p-customer" placeholder="ООО СберТех" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Руководитель проекта</label>
-                        <input type="text" id="p-project-leader" placeholder="Анна Иванова" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Команда проекта</label>
-                        <input type="text" id="p-team" placeholder="5 разработчиков, 2 дизайнера" class="form-control">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Цели и задачи</h3>
-                    <div class="form-group">
-                        <label>Цель (SMART)</label>
-                        <textarea id="p-goal-smart" rows="3" placeholder="Создать MVP системы управления проектами к декабрю 2026" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Задачи</label>
-                        <textarea id="p-tasks-text" rows="3" placeholder="1. Разработать ТЗ&#10;2. Создать дизайн&#10;3. Написать бэкенд" class="form-control"></textarea>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Используемые инструменты</h3>
-                    <div class="form-group">
-                        <input type="text" id="p-tools" placeholder="Figma, Python, FastAPI, React" class="form-control">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Ресурсы и ограничения</h3>
-                    <div class="form-group">
-                        <label>Бюджет</label>
-                        <input type="text" id="p-budget" placeholder="500 000 ₽" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Ограничения</label>
-                        <input type="text" id="p-restrictions" placeholder="Жесткие сроки, ограниченный бюджет" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Риски</label>
-                        <input type="text" id="p-risks" placeholder="Низкая квалификация команды" class="form-control">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Ожидаемый результат</h3>
-                    <div class="form-group">
-                        <label>Продукт</label>
-                        <input type="text" id="p-product" placeholder="Веб-приложение для управления проектами" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Показатели (KPI)</label>
-                        <input type="text" id="p-kpi" placeholder="10 активных пользователей, 90% удовлетворённости" class="form-control">
-                    </div>
-                </div>
-
-                <button id="save-passport-btn" class="btn-primary">💾 Сохранить паспорт</button>
+            <!-- Прокручиваемый список этапов -->
+            <div id="tracker-stages-list" class="flex flex-col gap-6 overflow-y-auto max-h-[550px] pr-2">
+              <!-- Динамически заполняемые этапы со списком задач внутри -->
             </div>
-        </section>
-
-
-        <!-- ===== СТРАНИЦА 3: ПРОГРЕСС ===== -->
-        <section id="page-progress" class="page">
-            <h1>Прогресс проекта</h1>
-            <p class="subtitle">Отслеживайте выполнение задач</p>
-
-            <div class="card">
-                <div id="progress-select-project">
-                    <select id="progress-project-select" class="form-control">
-                        <option value="">-- Выберите проект --</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="progress-container" style="display: none;">
-                <!-- Круговой индикатор -->
-                <div class="card progress-circle-container">
-                    <div class="progress-circle" id="progress-circle">
-                        <span class="progress-text" id="progress-percent">0%</span>
-                    </div>
-                    <div class="progress-details">
-                        <span>Задач выполнено: <strong id="progress-done">0</strong></span>
-                        <span>Всего задач: <strong id="progress-total">0</strong></span>
-                    </div>
-                </div>
-
-                <!-- Список этапов и задач -->
-                <div id="progress-tasks-container">
-                    <p class="placeholder">Выберите проект, чтобы увидеть прогресс</p>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ===== СТРАНИЦА 4: ТРЕКЕР ===== -->
-        <section id="page-tracker" class="page">
-            <h1>Трекер задач</h1>
-            <p class="subtitle">Управляйте задачами проекта</p>
-
-            <div class="card">
-                <div id="tracker-select-project">
-                    <select id="tracker-project-select" class="form-control">
-                        <option value="">-- Выберите проект --</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="tracker-container" style="display: none;">
-                <div class="card">
-                    <h3>Добавить задачу</h3>
-                    <form id="add-task-form">
-                        <div class="form-group">
-                            <label>Название задачи</label>
-                            <input type="text" id="task-title" placeholder="Например: Сделать дизайн" required class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Описание</label>
-                            <input type="text" id="task-description" placeholder="Нарисовать макеты в Figma" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Срок выполнения</label>
-                            <input type="date" id="task-deadline" class="form-control">
-                        </div>
-                        <button type="submit" class="btn-primary">➕ Добавить задачу</button>
-                    </form>
-                </div>
-
-                <div id="tracker-tasks-list">
-                    <p class="placeholder">Задач пока нет</p>
-                </div>
-            </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
     </main>
+  </div>
 
+  <!-- ===== ВСПЛЫВАЮЩИЕ ОКНА ===== -->
 
-    <!-- ======================================== -->
-    <!-- 3. МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА ПРОЕКТА     -->
-    <!-- ======================================== -->
-<div class="modal-overlay" id="project-modal">
-    <div class="modal">
-        <h2>📋 Выбрать проект</h2>
-        <p style="color: #666; margin-bottom: 16px;">Выберите проект, с которым хотите работать</p>
-        <div class="form-group">
-            <select id="modal-project-select" class="form-control">
-                <option value="">-- Выберите проект --</option>
-            </select>
+  <!-- Модальное окно 1: Регистрация участника команды -->
+        <svg class="absolute inset-0 w-full h-full text-[#323843]" viewBox="0 0 100 100" fill="currentColor">
+          <path d="M 10,40 Q 25,20 50,22 T 90,45 Q 80,75 50,78 T 10,40" />
+        </svg>
+        <div class="w-16 h-16 rounded-full border-4 border-[#CBE857] bg-white flex items-center justify-center relative z-10 shadow-sm">
+          <span class="text-2xl">👤</span>
         </div>
-        <div class="modal-actions">
-            <button class="btn-close" onclick="closeModal()">Отмена</button>
-            <button class="btn-primary" onclick="confirmProjectSelect()">Выбрать</button>
+      </div>
+
+      <h3 class="font-display font-black text-2xl tracking-wide text-[#323843] text-center">
+        РЕГИСТРАЦИЯ
+      </h3>
+      <p class="text-[10px] font-mono font-bold text-[#C68DFF] tracking-widest uppercase mt-0.5 mb-6 text-center">
+        участника в команду
+      </p>
+
+      <form id="member-form" class="w-full flex flex-col gap-4">
+        <input type="text" id="member-fio" placeholder="ФИО" required
+          class="w-full bg-[#323843] text-white border-2 border-[#C68DFF] rounded-2xl px-5 py-3.5 text-center font-display font-semibold text-sm focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-400">
+        <input type="text" id="member-phone" placeholder="ТЕЛЕФОН"
+          class="w-full bg-[#323843] text-white border-2 border-[#C68DFF] rounded-2xl px-5 py-3.5 text-center font-display font-semibold text-sm focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-400">
+        <input type="text" id="member-role" placeholder="РОЛЬ" required
+          class="w-full bg-[#323843] text-white border-2 border-[#C68DFF] rounded-2xl px-5 py-3.5 text-center font-display font-semibold text-sm focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-400">
+
+        <div class="flex gap-3 mt-4">
+          <button type="button" id="member-modal-close" class="flex-1 bg-gray-100 text-[#323843] font-display font-bold text-xs py-3.5 rounded-xl hover:bg-gray-200 transition-all cursor-pointer">
+            Отмена
+          </button>
+          <button type="submit" class="flex-1 bg-[#CBE857] text-[#323843] font-display font-bold text-xs py-3.5 rounded-xl hover:bg-[#CBE857]/90 transition-all cursor-pointer">
+            ДОБАВИТЬ
+          </button>
         </div>
+      </form>
     </div>
-</div>
+  </div>
 
+  <!-- Модальное окно 2: Переключатель проектов -->
+  <div id="project-modal" class="fixed inset-0 bg-[#323843]/80 backdrop-blur-[4px] z-50 flex items-center justify-center p-4 hidden animate-fade-in">
+    <div class="bg-white max-w-sm w-full rounded-[32px] border-4 border-[#323843] shadow-2xl p-6 sm:p-8 flex flex-col relative animate-scale-up">
+      <h3 class="font-display font-black text-xl text-[#323843] uppercase tracking-wide mb-2">
+        📋 Выбрать проект
+      </h3>
+      <p class="text-xs text-gray-500 mb-6">
+        Выберите активный проект для управления и просмотра мониторинга
+      </p>
 
-    <!-- ======================================== -->
-    <!-- 4. ПОДКЛЮЧАЕМ JAVASCRIPT                 -->
-    <!-- ======================================== -->
-    <script src="script.js"></script>
+      <div class="flex flex-col gap-4">
+        <select id="modal-project-select"
+          class="w-full bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-2xl px-4 py-3.5 text-sm font-sans font-semibold focus:outline-none focus:border-[#C68DFF] focus:bg-white transition-all">
+          <option value="">-- Выберите команду --</option>
+        </select>
 
+        <div class="flex gap-3 mt-4">
+          <button type="button" id="project-modal-close" class="flex-1 bg-gray-100 text-[#323843] font-display font-bold text-xs py-3 rounded-xl hover:bg-gray-200 transition-all cursor-pointer">
+            Отмена
+          </button>
+          <button type="button" id="project-modal-confirm" class="flex-1 bg-[#CBE857] text-[#323843] font-display font-bold text-xs py-3 rounded-xl hover:bg-[#CBE857]/90 transition-all cursor-pointer">
+            Выбрать
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Файл пакета JavaScript -->
+  <script type="module" src="/frontend/script.js"></script>
 </body>
 </html>
