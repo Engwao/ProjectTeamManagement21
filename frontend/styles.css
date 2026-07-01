@@ -132,3 +132,10 @@
   border-radius: 50%;
   background-color: #323843;
 }
+
+/* Фоновая сетка */
+.bg-grid {
+  background-image: radial-gradient(#323843 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  opacity: 0.05;
+}

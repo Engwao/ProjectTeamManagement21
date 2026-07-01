@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ProjectTeamManagement21</title>
+  <title>Team.Control</title>
 
   <!-- Премиум шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,15 +38,23 @@
 </head>
 <body class="bg-[#FCFDFE] text-[#323843] font-sans overflow-x-hidden min-h-screen">
 
-  <!-- Декоративные фоновые штрихи -->
+  <!-- Декоративные фоновые штрихи и сетка -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
-    <!-- Верхний левый салатовый штрих -->
-    <svg class="absolute -top-16 -left-20 w-[420px] h-[320px] text-[#CBE857] opacity-80 select-none animate-float-slow" viewBox="0 0 400 300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 0,150 Q 40,80 120,50 T 280,30 Q 340,35 380,60 Q 360,90 290,110 T 140,160 Q 70,210 0,150 Z" />
-    </svg>
-    <!-- Нижний правый фиолетовый штрих -->
-    <svg class="absolute -bottom-20 -right-20 w-[480px] h-[380px] text-[#C68DFF] opacity-75 select-none animate-float-slower" viewBox="0 0 450 350" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 100,320 Q 180,260 260,250 T 420,290 Q 450,220 380,180 T 200,190 Q 120,230 100,320 Z" />
+    <!-- Фоновая сетка -->
+    <div class="absolute inset-0 bg-grid"></div>
+
+    <!-- Верхний левый угол -->
+    <div class="absolute top-0 left-0 w-36 h-36 select-none">
+      <svg class="w-full h-full text-[#CBE857]" viewBox="0 0 100 100" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0,0 L 100,0 C 75,30 30,75 0,100 Z" />
+        <path d="M 100,0 C 75,30 30,75 0,100" fill="none" stroke="#323843" stroke-width="4" stroke-linecap="round" />
+      </svg>
+    </div>
+
+    <!-- Красивая длинная волнистая фиолетово-салатовая линия через весь фон -->
+    <svg class="absolute top-[15%] left-[-10%] w-[120%] h-[700px] opacity-20" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0,200 C 250,50 350,450 650,350 C 950,250 850,550 1200,400" stroke="#C68DFF" stroke-width="6" stroke-dasharray="16 12" stroke-linecap="round" />
+      <path d="M 0,230 C 250,80 350,480 650,380 C 950,280 850,580 1200,430" stroke="#CBE857" stroke-width="4" stroke-linecap="round" />
     </svg>
   </div>
 
@@ -58,8 +66,13 @@
       <div>
         <!-- Шапка с логотипом -->
         <div class="mb-10 text-center lg:text-left">
-          <div class="flex items-center gap-2 justify-center lg:justify-start">
-            <span class="text-2xl">🚀</span>
+          <div class="flex items-center gap-2.5 justify-center lg:justify-start">
+            <!-- Авторская иконка ракеты -->
+            <svg class="w-8 h-8 shrink-0 select-none" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 3 L26 13 L21 21 L16 18 L11 21 L6 13 Z" fill="#323843" transform="translate(2, 2)" />
+              <path d="M16 3 L26 13 L21 21 L16 18 L11 21 L6 13 Z" fill="#CBE857" stroke="#323843" stroke-width="2.5" stroke-linejoin="round" />
+              <circle cx="16" cy="12" r="2.5" fill="white" stroke="#323843" stroke-width="2" />
+            </svg>
             <h1 class="font-display font-black text-xl tracking-widest text-[#323843]">
               TEAM<span class="text-[#C68DFF]">.</span>CONTROL
             </h1>
@@ -72,19 +85,45 @@
         <!-- Меню навигации -->
         <nav class="flex flex-col gap-2">
           <button id="menu-btn-register" class="nav-item active flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-register">
-            <span class="text-base shrink-0">📋</span>
+            <!-- Авторская иконка Регистрации -->
+            <svg class="w-5 h-5 shrink-0 select-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="6" width="16" height="14" rx="2" fill="#323843" transform="translate(1.5, 1.5)" />
+              <rect x="4" y="6" width="16" height="14" rx="2" fill="white" stroke="#323843" stroke-width="2" />
+              <rect x="9" y="3" width="6" height="3" rx="1" fill="#C68DFF" stroke="#323843" stroke-width="2" />
+              <path d="M8 11 H16 M8 15 H13" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+            </svg>
             <span>Регистрация</span>
           </button>
           <button id="menu-btn-passport" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-passport">
-            <span class="text-base shrink-0">📄</span>
+            <!-- Авторская иконка Паспорта -->
+            <svg class="w-5 h-5 shrink-0 select-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 3 H14 L19 8 V20 H5 Z" fill="#323843" transform="translate(1.5, 1.5)" />
+              <path d="M5 3 H13 L19 9 V20 H5 Z" fill="white" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+              <path d="M13 3 V9 H19" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+              <path d="M8 13 H13 M8 16 H15" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+            </svg>
             <span>Паспорт проекта</span>
           </button>
           <button id="menu-btn-progress" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-progress">
-            <span class="text-base shrink-0">📊</span>
+            <!-- Авторская иконка Прогресса -->
+            <svg class="w-5 h-5 shrink-0 select-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="14" width="4" height="6" rx="1" fill="#323843" transform="translate(1, 1)" />
+              <rect x="10" y="9" width="4" height="11" rx="1" fill="#323843" transform="translate(1, 1)" />
+              <rect x="16" y="4" width="4" height="16" rx="1" fill="#323843" transform="translate(1, 1)" />
+
+              <rect x="4" y="14" width="4" height="6" rx="1" fill="white" stroke="#323843" stroke-width="2" />
+              <rect x="10" y="9" width="4" height="11" rx="1" fill="#CBE857" stroke="#323843" stroke-width="2" />
+              <rect x="16" y="4" width="4" height="16" rx="1" fill="#C68DFF" stroke="#323843" stroke-width="2" />
+            </svg>
             <span>Прогресс</span>
           </button>
           <button id="menu-btn-tracker" class="nav-item flex items-center gap-3.5 px-4 py-3.5 rounded-2xl border-2 border-transparent hover:border-[#323843] hover:bg-[#F8F9FA] text-left transition-all duration-150 font-display font-bold text-sm text-gray-500 active:scale-[0.98] cursor-pointer" data-target="page-tracker">
-            <span class="text-base shrink-0">✅</span>
+            <!-- Авторская иконка Трекера задач -->
+            <svg class="w-5 h-5 shrink-0 select-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="16" height="16" rx="3" fill="#323843" transform="translate(1.5, 1.5)" />
+              <rect x="4" y="4" width="16" height="16" rx="3" fill="white" stroke="#323843" stroke-width="2" />
+              <path d="M8 12 L11 15 L16 9" stroke="#C68DFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
             <span>Трекер задач</span>
           </button>
         </nav>
@@ -145,8 +184,12 @@
                 <input type="text" id="team-direction" placeholder="Напр., Аэрокосмическая инженерия" required
                   class="w-full bg-[#2A2F3A] text-white border-2 border-[#CBE857]/20 rounded-xl px-4 py-3 text-sm font-sans focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-500">
               </div>
-              <button type="submit" class="mt-2 w-full bg-[#CBE857] text-[#323843] font-display font-bold tracking-wider py-3.5 rounded-xl hover:bg-[#CBE857]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase text-xs">
-                🚀 Создать команду
+              <button type="submit" class="mt-2 w-full bg-[#CBE857] text-[#323843] font-display font-black tracking-widest py-3.5 rounded-xl hover:bg-[#CBE857]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase text-xs flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2 L20 10 L16 18 L12 15 L8 18 L4 10 Z" fill="#323843" />
+                  <circle cx="12" cy="10" r="2" fill="white" />
+                </svg>
+                Создать команду
               </button>
             </form>
           </div>
@@ -212,13 +255,23 @@
             </p>
           </div>
           <div id="passport-save-success" class="bg-[#CBE857] text-[#323843] text-xs font-bold px-4 py-2 rounded-xl border-2 border-[#323843] shadow-sm animate-fade-in flex items-center gap-1.5 hidden">
-            ✨ Паспорт сохранен!
+            <svg class="w-4 h-4 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="#CBE857" stroke="#323843" stroke-width="2" />
+              <path d="M8 12 L11 15 L16 9" stroke="#323843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Паспорт сохранен!
           </div>
         </div>
 
         <!-- Предупреждение, если команда не выбрана -->
         <div id="passport-empty-state" class="bg-white p-12 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] max-w-lg mx-auto text-center flex flex-col items-center gap-4">
-          <span class="text-4xl animate-bounce">⚠️</span>
+          <div class="animate-bounce">
+            <svg class="w-16 h-16 text-[#C68DFF]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2 L22 20 H2 Z" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+              <path d="M12 8 V13" stroke="#323843" stroke-width="2.5" stroke-linecap="round" />
+              <circle cx="12" cy="16.5" r="1.25" fill="#323843" />
+            </svg>
+          </div>
           <h3 class="text-xl font-display font-bold text-[#323843]">Проект не выбран</h3>
           <p class="text-sm text-gray-500">
             Пожалуйста, выберите или зарегистрируйте команду во вкладке <strong>Регистрация</strong> или воспользуйтесь переключателем в сайд-баре!
@@ -230,7 +283,14 @@
           <!-- БЛОК 1: ОБЩАЯ ИНФОРМАЦИЯ -->
           <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
             <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
-              <span class="text-xl">📅</span>
+              <!-- Авторская иконка Календаря -->
+              <svg class="w-6 h-6 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="5" width="18" height="16" rx="2" fill="white" stroke="#323843" stroke-width="2" />
+                <path d="M3 10 H21 M8 3 V7 M16 3 V7" stroke="#323843" stroke-width="2" />
+                <rect x="7" y="13" width="2" height="2" rx="0.5" fill="#C68DFF" stroke="#323843" stroke-width="1.5" />
+                <rect x="11" y="13" width="2" height="2" rx="0.5" fill="#CBE857" stroke="#323843" stroke-width="1.5" />
+                <rect x="15" y="13" width="2" height="2" rx="0.5" fill="#323843" />
+              </svg>
               <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
                 Общая информация
               </h3>
@@ -256,7 +316,13 @@
           <!-- БЛОК 2: УЧАСТНИКИ И РОЛИ -->
           <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
             <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
-              <span class="text-xl">👥</span>
+              <!-- Авторская иконка Участников -->
+              <svg class="w-6 h-6 text-[#323843] inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="9" cy="8.5" r="3" fill="#C68DFF" stroke="#323843" stroke-width="2" />
+                <path d="M3 17 C3 14 5.5 12.5 9 12.5 C11 12.5 12.5 13 13.5 14" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+                <circle cx="16" cy="7.5" r="2.5" fill="#CBE857" stroke="#323843" stroke-width="2" />
+                <path d="M12.5 16 C13 15 14.5 14.5 16 14.5 C18.5 14.5 21 15.5 21 17.5" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+              </svg>
               <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
                 Участники и роли
               </h3>
@@ -292,7 +358,12 @@
           <!-- БЛОК 3: ЦЕЛИ И ЗАДАЧИ -->
           <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
             <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
-              <span class="text-xl">🎯</span>
+              <!-- Авторская иконка Целей -->
+              <svg class="w-6 h-6 text-[#323843] inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="9" fill="white" stroke="#323843" stroke-width="2" />
+                <circle cx="12" cy="12" r="6" fill="#CBE857" stroke="#323843" stroke-width="2" />
+                <circle cx="12" cy="12" r="3" fill="#C68DFF" stroke="#323843" stroke-width="2" />
+              </svg>
               <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
                 Цели и задачи
               </h3>
@@ -325,7 +396,12 @@
           <!-- БЛОК 4: РЕСУРСЫ И ОГРАНИЧЕНИЯ -->
           <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
             <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
-              <span class="text-xl">⚠️</span>
+              <!-- Авторская иконка Ограничений -->
+              <svg class="w-6 h-6 text-[#C68DFF] inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2 L22 20 H2 Z" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+                <path d="M12 8 V13" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+                <circle cx="12" cy="16.5" r="1.25" fill="#323843" />
+              </svg>
               <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
                 Ресурсы и ограничения
               </h3>
@@ -358,7 +434,12 @@
           <!-- БЛОК 5: ОЖИДАЕМЫЙ РЕЗУЛЬТАТ -->
           <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] flex flex-col gap-6">
             <div class="flex items-center gap-3 border-b-2 border-gray-100 pb-3">
-              <span class="text-xl">📊</span>
+              <!-- Авторская иконка Результатов -->
+              <svg class="w-6 h-6 text-[#323843] inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="13" width="4" height="7" rx="1" fill="white" stroke="#323843" stroke-width="2" />
+                <rect x="10" y="8" width="4" height="12" rx="1" fill="#CBE857" stroke="#323843" stroke-width="2" />
+                <rect x="17" y="3" width="4" height="17" rx="1" fill="#C68DFF" stroke="#323843" stroke-width="2" />
+              </svg>
               <h3 class="font-display font-black text-sm tracking-wide text-[#323843] uppercase">
                 Ожидаемый результат
               </h3>
@@ -381,10 +462,15 @@
             </div>
           </div>
 
-          <!-- Кнопка сохранения паспорта, соответствующая "ГОТОВО" на экране 7 -->
+          <!-- Кнопка сохранения паспорта -->
           <div class="flex justify-center mt-4">
             <button type="submit" id="save-passport-btn" class="bg-[#CBE857] text-[#323843] font-display font-black tracking-widest px-16 py-4.5 rounded-2xl border-4 border-[#323843] hover:bg-[#CBE857]/90 hover:scale-105 active:scale-95 transition-all cursor-pointer text-sm uppercase shadow-xl flex items-center gap-2">
-              <span>💾</span> ГОТОВО
+              <svg class="w-5 h-5 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16L21 8V19C21 20.1046 20.1046 21 19 21Z" fill="white" stroke="#323843" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M17 21V13H7V21" stroke="#323843" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M7 3V8H15" stroke="#323843" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              <span>ГОТОВО</span>
             </button>
           </div>
         </form>
@@ -408,16 +494,22 @@
 
         <!-- Предупреждение, если команда не выбрана -->
         <div id="progress-empty-state" class="bg-white p-12 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] max-w-lg mx-auto text-center flex flex-col items-center gap-4">
-          <span class="text-4xl animate-bounce">⚠️</span>
+          <div class="animate-bounce">
+            <svg class="w-16 h-16 text-[#C68DFF]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2 L22 20 H2 Z" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+              <path d="M12 8 V13" stroke="#323843" stroke-width="2.5" stroke-linecap="round" />
+              <circle cx="12" cy="16.5" r="1.25" fill="#323843" />
+            </svg>
+          </div>
           <h3 class="text-xl font-display font-bold text-[#323843]">Проект не выбран</h3>
           <p class="text-sm text-gray-500">
             Пожалуйста, выберите или зарегистрируйте команду во вкладке <strong>Регистрация</strong>!
           </p>
         </div>
 
-        <!-- Progress Metrics and Stage List -->
+        <!-- Показатели прогресса и список этапов -->
         <div id="progress-active-container" class="flex flex-col gap-8 hidden max-w-4xl">
-          <!-- Основная карточка шкалы прогресса (макет экрана 8 Figma) -->
+          <!-- Основная карточка шкалы прогресса -->
           <div class="bg-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843]">
             <div class="relative w-full h-12 bg-[#323843] rounded-full overflow-hidden p-1.5 border-2 border-[#323843] shadow-inner">
               <div id="progress-fill" class="h-full rounded-full bg-gradient-to-r from-[#CBE857] to-[#C68DFF] transition-all duration-500 ease-out flex items-center justify-end pr-4 min-w-[2.5rem]" style="width: 0%;">
@@ -429,11 +521,18 @@
 
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-xs text-gray-500 font-mono font-semibold uppercase tracking-wider">
               <div class="flex items-center gap-2">
-                <span>🟢</span>
+                <svg class="w-4 h-4 text-[#CBE857] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" fill="#CBE857" stroke="#323843" stroke-width="2" />
+                  <path d="M8 12 L11 15 L16 9" stroke="#323843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
                 <span>Выполнено задач: <strong id="completed-tasks-count" class="text-[#323843] font-sans text-sm">0</strong></span>
               </div>
               <div class="flex items-center gap-2">
-                <span>📋</span>
+                <svg class="w-4 h-4 text-[#C68DFF] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="4" y="5" width="16" height="15" rx="2" fill="white" stroke="#323843" stroke-width="2" />
+                  <path d="M9 3 H15" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+                  <path d="M8 10 H16 M8 14 H13" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+                </svg>
                 <span>Всего задач в трекере: <strong id="total-tasks-count" class="text-[#323843] font-sans text-sm">0</strong></span>
               </div>
             </div>
@@ -463,7 +562,13 @@
 
         <!-- Предупреждение, если команда не выбрана -->
         <div id="tracker-empty-state" class="bg-white p-12 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] max-w-lg mx-auto text-center flex flex-col items-center gap-4">
-          <span class="text-4xl animate-bounce">⚠️</span>
+          <div class="animate-bounce">
+            <svg class="w-16 h-16 text-[#C68DFF]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2 L22 20 H2 Z" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+              <path d="M12 8 V13" stroke="#323843" stroke-width="2.5" stroke-linecap="round" />
+              <circle cx="12" cy="16.5" r="1.25" fill="#323843" />
+            </svg>
+          </div>
           <h3 class="text-xl font-display font-bold text-[#323843]">Проект не выбран</h3>
           <p class="text-sm text-gray-500">
             Пожалуйста, выберите или зарегистрируйте команду во вкладке <strong>Регистрация</strong>!
@@ -477,13 +582,18 @@
             <!-- Форма добавления этапа -->
             <div class="bg-white p-6 rounded-[32px] border-2 border-[#323843]/10 shadow-md">
               <h3 class="text-sm font-display font-black text-[#323843] uppercase tracking-wider mb-4 flex items-center gap-2">
-                <span>📁</span> Создать этап проекта
+                <!-- Авторская иконка Папки -->
+                <svg class="w-5 h-5 text-[#323843] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 5 C3 3.89543 3.89543 3 5 3 H10 L13 6 H19 C20.1046 6 21 6.89543 21 8 V19 C21 20.1046 20.1046 21 19 21 H5 C3.89543 21 3 20.1046 3 19 Z" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+                  <path d="M3 9 H21" stroke="#323843" stroke-width="2" />
+                </svg>
+                Создать этап проекта
               </h3>
               <form id="stage-form" class="flex gap-2">
                 <input type="text" id="stage-name-input" placeholder="Напр., Верстка интерфейса" required
                   class="flex-1 bg-[#EDEDED] text-[#323843] border-2 border-transparent rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#C68DFF] focus:bg-white transition-all font-sans">
-                <button type="submit" class="bg-[#323843] text-white hover:bg-[#323843]/90 px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 cursor-pointer">
-                  ➕
+                <button type="submit" class="bg-[#323843] text-white hover:bg-[#323843]/90 px-4 py-3 rounded-xl transition-all hover:scale-105 active:scale-95 cursor-pointer font-bold text-lg leading-none">
+                  +
                 </button>
               </form>
             </div>
@@ -491,7 +601,12 @@
             <!-- Форма добавления задачи -->
             <div class="bg-[#323843] text-white p-6 sm:p-8 rounded-[32px] border-4 border-[#323843] shadow-[8px_8px_0px_0px_#323843] relative overflow-hidden">
               <h3 class="font-display font-black text-base text-[#CBE857] uppercase tracking-wider mb-5 flex items-center gap-2">
-                <span>✍️</span> Новая задача
+                <!-- Авторская иконка Пера -->
+                <svg class="w-5 h-5 text-[#CBE857] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 20 L20 20" stroke="#CBE857" stroke-width="2" stroke-linecap="round" />
+                  <path d="M16.5 3.5 C17.3284 2.67157 18.6716 2.67157 19.5 3.5 C20.3284 4.32843 20.3284 5.67157 19.5 6.5 L7 19 L3 20 L4 16 Z" fill="#323843" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                </svg>
+                Новая задача
               </h3>
               <form id="task-form" class="flex flex-col gap-4">
                 <div class="flex flex-col gap-1.5">
@@ -526,8 +641,11 @@
                     </select>
                   </div>
                 </div>
-                <button type="submit" class="mt-2 w-full bg-[#CBE857] text-[#323843] font-display font-bold tracking-wider py-3.5 rounded-xl hover:bg-[#CBE857]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase text-xs">
-                  ➕ Создать задачу
+                <button type="submit" class="mt-2 w-full bg-[#CBE857] text-[#323843] font-display font-black tracking-widest py-3.5 rounded-xl hover:bg-[#CBE857]/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer uppercase text-xs flex items-center justify-center gap-1.5">
+                  <svg class="w-4 h-4 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5 V19 M5 12 H19" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                  </svg>
+                  Создать задачу
                 </button>
               </form>
             </div>
@@ -561,22 +679,24 @@
   <!-- ===== ВСПЛЫВАЮЩИЕ ОКНА ===== -->
 
   <!-- Модальное окно 1: Регистрация участника команды -->
-        <svg class="absolute inset-0 w-full h-full text-[#323843]" viewBox="0 0 100 100" fill="currentColor">
-          <path d="M 10,40 Q 25,20 50,22 T 90,45 Q 80,75 50,78 T 10,40" />
-        </svg>
-        <div class="w-16 h-16 rounded-full border-4 border-[#CBE857] bg-white flex items-center justify-center relative z-10 shadow-sm">
-          <span class="text-2xl">👤</span>
+  <div id="member-modal" class="fixed inset-0 bg-[#323843]/80 backdrop-blur-[4px] z-50 flex items-center justify-center p-4 hidden animate-fade-in">
+    <div class="bg-white max-w-sm w-full rounded-[32px] border-4 border-[#323843] shadow-2xl p-6 sm:p-8 flex flex-col items-center relative animate-scale-up">
+        <div class="w-16 h-16 rounded-full border-4 border-[#CBE857] bg-white flex items-center justify-center relative z-10 shadow-sm mb-4">
+          <!-- Авторская иконка Профиля -->
+          <svg class="w-8 h-8 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="4" fill="#C68DFF" stroke="#323843" stroke-width="2" />
+            <path d="M4 20 C4 15 8 13 12 13 C16 13 20 15 20 20" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round" />
+          </svg>
         </div>
-      </div>
 
-      <h3 class="font-display font-black text-2xl tracking-wide text-[#323843] text-center">
+      <h3 class="font-display font-black text-2xl tracking-wide text-[#323843] text-center relative z-10">
         РЕГИСТРАЦИЯ
       </h3>
-      <p class="text-[10px] font-mono font-bold text-[#C68DFF] tracking-widest uppercase mt-0.5 mb-6 text-center">
+      <p class="text-[10px] font-mono font-bold text-[#C68DFF] tracking-widest uppercase mt-0.5 mb-6 text-center relative z-10">
         участника в команду
       </p>
 
-      <form id="member-form" class="w-full flex flex-col gap-4">
+      <form id="member-form" class="w-full flex flex-col gap-4 relative z-10">
         <input type="text" id="member-fio" placeholder="ФИО" required
           class="w-full bg-[#323843] text-white border-2 border-[#C68DFF] rounded-2xl px-5 py-3.5 text-center font-display font-semibold text-sm focus:outline-none focus:border-[#CBE857] transition-all placeholder:text-gray-400">
         <input type="text" id="member-phone" placeholder="ТЕЛЕФОН"
@@ -599,9 +719,16 @@
   <!-- Модальное окно 2: Переключатель проектов -->
   <div id="project-modal" class="fixed inset-0 bg-[#323843]/80 backdrop-blur-[4px] z-50 flex items-center justify-center p-4 hidden animate-fade-in">
     <div class="bg-white max-w-sm w-full rounded-[32px] border-4 border-[#323843] shadow-2xl p-6 sm:p-8 flex flex-col relative animate-scale-up">
-      <h3 class="font-display font-black text-xl text-[#323843] uppercase tracking-wide mb-2">
-        📋 Выбрать проект
-      </h3>
+      <div class="flex items-center gap-2.5 mb-2 border-b-2 border-gray-100 pb-3">
+        <svg class="w-6 h-6 text-[#323843] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="5" width="16" height="15" rx="2" fill="white" stroke="#323843" stroke-width="2" />
+          <path d="M9 3 H15" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+          <path d="M8 10 H16 M8 14 H13" stroke="#323843" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <h3 class="font-display font-black text-xl text-[#323843] uppercase tracking-wide">
+          Выбрать проект
+        </h3>
+      </div>
       <p class="text-xs text-gray-500 mb-6">
         Выберите активный проект для управления и просмотра мониторинга
       </p>

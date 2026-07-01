@@ -174,7 +174,7 @@ function renderSidebarAndSelectors() {
   state.groups.forEach(g => {
     const opt = document.createElement('option');
     opt.value = g.id;
-    opt.textContent = `🚀 ${g.name}`;
+    opt.textContent = `${g.name}`;
     if (g.id === state.activeGroupId) {
       opt.selected = true;
     }
@@ -189,8 +189,11 @@ function renderRegistrationTab() {
 
   if (state.groups.length === 0) {
     dom.teamsList.innerHTML = `
-      <div class="text-center py-8 text-gray-400 font-sans text-sm flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-100 rounded-2xl">
-        <span>📦</span>
+      <div class="text-center py-8 text-gray-400 font-sans text-sm flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-100 rounded-2xl bg-white/50">
+        <svg class="w-8 h-8 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="18" rx="2" fill="white" stroke="#323843" stroke-width="2"/>
+          <path d="M3 9H21" stroke="#323843" stroke-width="2"/>
+        </svg>
         <span>Нет созданных команд. Зарегистрируйте первую!</span>
       </div>
     `;
@@ -212,7 +215,9 @@ function renderRegistrationTab() {
       </div>
       <div class="flex items-center gap-2">
         <button class="delete-team-btn text-gray-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors" data-id="${g.id}">
-          🗑️
+          <svg class="w-4 h-4 text-current stroke-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
     `;
@@ -250,7 +255,16 @@ function renderRegistrationTab() {
   if (state.activeGroup) {
     dom.activeTeamCard.classList.remove('hidden');
     dom.activeTeamTitle.textContent = state.activeGroup.name;
-    dom.activeTeamDir.textContent = `📂 Направление: ${state.activeGroup.direction || 'не указано'}`;
+
+    // Вставка красивой SVG иконки папки перед текстом направления
+    dom.activeTeamDir.innerHTML = `
+      <div class="flex items-center gap-1.5 text-xs text-gray-500">
+        <svg class="w-4 h-4 text-[#C68DFF] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 5 C3 3.89543 3.89543 3 5 3 H10 L13 6 H19 C20.1046 6 21 6.89543 21 8 V19 C21 20.1046 20.1046 21 19 21 H5 C3.89543 21 3 20.1046 3 19 Z" fill="#CBE857" stroke="#323843" stroke-width="1.5" stroke-linejoin="round" />
+        </svg>
+        <span>Направление: <strong class="text-[#323843]">${state.activeGroup.direction || 'не указано'}</strong></span>
+      </div>
+    `;
 
     const members = state.activeGroup.members || [];
     dom.membersCount.textContent = members.length;
@@ -258,8 +272,13 @@ function renderRegistrationTab() {
 
     if (members.length === 0) {
       dom.membersGrid.innerHTML = `
-        <div class="col-span-full py-12 text-center text-gray-400 font-sans text-xs flex flex-col items-center gap-2 border-2 border-dashed border-gray-100 rounded-2xl">
-          <span>👥</span>
+        <div class="col-span-full py-12 text-center text-gray-400 font-sans text-xs flex flex-col items-center gap-2 border-2 border-dashed border-gray-100 rounded-2xl bg-white/50">
+          <svg class="w-8 h-8 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="8.5" r="3" fill="#C68DFF" stroke="#323843" stroke-width="1.5"/>
+            <path d="M3 17 C3 14 5.5 12.5 9 12.5 C11 12.5 12.5 13 13.5 14" stroke="#323843" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="16" cy="7.5" r="2.5" fill="#CBE857" stroke="#323843" stroke-width="1.5"/>
+            <path d="M12.5 16 C13 15 14.5 14.5 16 14.5 C18.5 14.5 21 15.5 21 17.5" stroke="#323843" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
           <span>В этой команде пока нет участников. Нажмите "+ Добавить участника" выше!</span>
         </div>
       `;
@@ -276,11 +295,16 @@ function renderRegistrationTab() {
             <div>
               <h5 class="font-display font-bold text-xs text-[#323843] line-clamp-1">${m.name}</h5>
               <span class="inline-block text-[9px] font-mono font-bold text-[#C68DFF] uppercase mt-0.5">${m.role || 'Участник'}</span>
-              ${m.phone ? `<p class="text-[10px] text-gray-400 font-mono mt-1">📞 ${m.phone}</p>` : ''}
+              ${m.phone ? `<p class="text-[10px] text-gray-400 font-mono mt-1 flex items-center gap-1">
+                <svg class="w-3 h-3 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                ${m.phone}
+              </p>` : ''}
             </div>
           </div>
           <button class="delete-member-btn text-gray-300 hover:text-red-500 p-1 rounded-md hover:bg-red-50 transition-colors" data-id="${m.id}">
-            🗑️
+            <svg class="w-4 h-4 text-current stroke-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
         `;
 
@@ -368,7 +392,9 @@ function renderProgressTab() {
   if (stages.length === 0 && tasks.length === 0) {
     dom.progressStagesList.innerHTML = `
       <div class="bg-white p-12 rounded-[32px] border-4 border-dashed border-gray-100 text-center text-gray-400 font-sans text-sm flex flex-col items-center justify-center gap-3">
-        <span>✨</span>
+        <svg class="w-8 h-8 text-[#C68DFF]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z" fill="#CBE857" stroke="#323843" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
         <span>У этого проекта пока нет этапов и задач в трекере.</span>
         <p class="text-xs text-gray-400">Перейдите на вкладку <strong>Трекер</strong>, чтобы наполнить проект задачами!</p>
       </div>
@@ -390,10 +416,13 @@ function renderProgressTab() {
             ${stage.name}
           </h3>
         </div>
-        <button class="stage-toggle-status-btn text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl border-2 border-[#323843] transition-all cursor-pointer ${
+        <button class="stage-toggle-status-btn text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl border-2 border-[#323843] transition-all cursor-pointer flex items-center gap-1 ${
           stage.is_done ? 'bg-[#CBE857] text-[#323843]' : 'bg-white hover:bg-gray-50 text-gray-400'
         }" data-id="${stage.id}" data-done="${stage.is_done}">
-          ${stage.is_done ? '✅ Выполнен' : '⏳ В процессе'}
+          ${stage.is_done 
+            ? `<svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#CBE857" stroke="#323843" stroke-width="2"/><path d="M8 12 L11 15 L16 9" stroke="#323843" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Выполнен` 
+            : `<svg class="w-3.5 h-3.5 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10" /><path d="M12 6 V12 H16" /></svg> В процессе`
+          }
         </button>
       </div>
       
@@ -410,7 +439,10 @@ function renderProgressTab() {
                     ${t.title}
                   </h4>
                   ${t.description ? `<p class="text-xs text-gray-400 font-sans mt-0.5">${t.description}</p>` : ''}
-                  ${t.deadline ? `<span class="inline-block text-[10px] font-mono font-bold bg-gray-100 text-gray-400 px-2 py-0.5 rounded-md mt-2">📅 Срок: ${t.deadline}</span>` : ''}
+                  ${t.deadline ? `<span class="inline-flex items-center gap-1 text-[10px] font-mono font-bold bg-gray-100 text-gray-400 px-2 py-0.5 rounded-md mt-2">
+                    <svg class="w-3 h-3 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    Срок: ${t.deadline}
+                  </span>` : ''}
                 </div>
               </div>
             `).join('')}
@@ -485,7 +517,10 @@ function renderProgressTab() {
                 ${t.title}
               </h4>
               ${t.description ? `<p class="text-xs text-gray-400 font-sans mt-0.5">${t.description}</p>` : ''}
-              ${t.deadline ? `<span class="inline-block text-[10px] font-mono font-bold bg-gray-100 text-gray-400 px-2 py-0.5 rounded-md mt-2">📅 Срок: ${t.deadline}</span>` : ''}
+              ${t.deadline ? `<span class="inline-flex items-center gap-1 text-[10px] font-mono font-bold bg-gray-100 text-gray-400 px-2 py-0.5 rounded-md mt-2">
+                <svg class="w-3 h-3 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                Срок: ${t.deadline}
+              </span>` : ''}
             </div>
           </div>
         `).join('')}
@@ -545,8 +580,11 @@ function renderTrackerTab() {
 
   if (stages.length === 0 && tasks.length === 0) {
     dom.trackerStagesList.innerHTML = `
-      <div class="text-center py-16 text-gray-400 font-sans text-sm flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-100 rounded-2xl">
-        <span>📋</span>
+      <div class="text-center py-16 text-gray-400 font-sans text-sm flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-100 rounded-2xl bg-white/50">
+        <svg class="w-8 h-8 text-[#323843]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="18" rx="2" fill="white" stroke="#323843" stroke-width="2"/>
+          <path d="M9 3v18M15 3v18M3 9h18" stroke="#323843" stroke-width="2"/>
+        </svg>
         <span>Список задач и этапов пуст. Добавьте первый этап или общую задачу в форме слева!</span>
       </div>
     `;
@@ -562,7 +600,11 @@ function renderTrackerTab() {
     box.innerHTML = `
       <div class="flex items-center justify-between border-b border-gray-150 pb-2 mb-3">
         <div class="flex items-center gap-2">
-          <span class="text-[#C68DFF] font-semibold">📁</span>
+          <!-- Авторская иконка Папки -->
+          <svg class="w-4 h-4 text-[#C68DFF] shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 5 C3 3.89543 3.89543 3 5 3 H10 L13 6 H19 C20.1046 6 21 6.89543 21 8 V19 C21 20.1046 20.1046 21 19 21 H5 C3.89543 21 3 20.1046 3 19 Z" fill="#C68DFF" stroke="#323843" stroke-width="1.5" stroke-linejoin="round" />
+            <path d="M3 9 H21" stroke="#323843" stroke-width="1.5" />
+          </svg>
           <h4 class="font-display font-extrabold text-xs text-[#323843] uppercase tracking-wider">
             ${stage.name}
           </h4>
@@ -571,7 +613,9 @@ function renderTrackerTab() {
           </span>
         </div>
         <button class="delete-stage-btn text-gray-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-red-50 transition-colors" data-id="${stage.id}">
-          🗑️
+          <svg class="w-4 h-4 text-current stroke-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
       
@@ -593,11 +637,16 @@ function renderTrackerTab() {
                       ${t.title}
                     </h5>
                     ${t.description ? `<p class="text-[10px] text-gray-400 mt-0.5 font-sans truncate">${t.description}</p>` : ''}
-                    ${t.deadline ? `<span class="inline-flex items-center gap-1 text-[9px] font-mono text-gray-400 mt-1">📅 ${t.deadline}</span>` : ''}
+                    ${t.deadline ? `<span class="inline-flex items-center gap-1 text-[9px] font-mono text-gray-400 mt-1">
+                      <svg class="w-3 h-3 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                      ${t.deadline}
+                    </span>` : ''}
                   </div>
                 </div>
                 <button class="delete-task-btn text-gray-300 hover:text-red-500 p-1 rounded-md hover:bg-red-50 transition-colors" data-id="${t.id}">
-                  🗑️
+                  <svg class="w-4 h-4 text-current stroke-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </button>
               </div>
             `).join('')}
@@ -606,7 +655,7 @@ function renderTrackerTab() {
 
     // Обработчик удаления этапа
     box.querySelector('.delete-stage-btn').addEventListener('click', async (e) => {
-      const sId = parseInt(e.target.getAttribute('data-id'));
+      const sId = parseInt(e.currentTarget.getAttribute('data-id'));
       if (!confirm('Вы действительно хотите удалить этот этап? Прикрепленные задачи сохранятся как общие.')) return;
 
       try {
@@ -620,7 +669,7 @@ function renderTrackerTab() {
     // Обработчик удаления задачи
     box.querySelectorAll('.delete-task-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
-        const tId = parseInt(btn.getAttribute('data-id'));
+        const tId = parseInt(e.currentTarget.getAttribute('data-id'));
         if (!confirm('Вы действительно хотите навсегда удалить эту задачу?')) return;
 
         try {
@@ -635,8 +684,8 @@ function renderTrackerTab() {
     // Обработчик переключения чекбокса статуса задачи
     box.querySelectorAll('.toggle-task-status-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
-        const tId = parseInt(btn.getAttribute('data-id'));
-        const status = btn.getAttribute('data-status');
+        const tId = parseInt(e.currentTarget.getAttribute('data-id'));
+        const status = e.currentTarget.getAttribute('data-status');
         const newStatus = status === 'completed' ? 'pending' : 'completed';
 
         try {
@@ -664,7 +713,11 @@ function renderTrackerTab() {
     box.innerHTML = `
       <div class="flex items-center justify-between border-b border-gray-150 pb-2 mb-3">
         <div class="flex items-center gap-2">
-          <span class="text-[#CBE857] font-semibold">📦</span>
+          <!-- Авторская иконка Коробки -->
+          <svg class="w-4 h-4 text-current shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="2" fill="#CBE857" stroke="#323843" stroke-width="1.5" />
+            <path d="M3 9 H21" stroke="#323843" stroke-width="1.5" />
+          </svg>
           <h4 class="font-display font-extrabold text-xs text-[#323843] uppercase tracking-wider">
             Общие задачи
           </h4>
@@ -690,11 +743,16 @@ function renderTrackerTab() {
                   ${t.title}
                 </h5>
                 ${t.description ? `<p class="text-[10px] text-gray-400 mt-0.5 font-sans truncate">${t.description}</p>` : ''}
-                ${t.deadline ? `<span class="inline-flex items-center gap-1 text-[9px] font-mono text-gray-400 mt-1">📅 ${t.deadline}</span>` : ''}
+                ${t.deadline ? `<span class="inline-flex items-center gap-1 text-[9px] font-mono text-gray-400 mt-1">
+                  <svg class="w-3 h-3 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  ${t.deadline}
+                </span>` : ''}
               </div>
             </div>
             <button class="delete-task-btn text-gray-300 hover:text-red-500 p-1 rounded-md hover:bg-red-50 transition-colors" data-id="${t.id}">
-              🗑️
+              <svg class="w-4 h-4 text-current stroke-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
           </div>
         `).join('')}
@@ -975,6 +1033,7 @@ function switchTab(targetId) {
       btn.classList.remove('active');
     }
   });
+
 
   dom.pageViews.forEach(view => {
     if (view.id === targetId) {

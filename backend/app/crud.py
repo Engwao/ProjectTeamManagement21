@@ -68,25 +68,30 @@ def get_group_by_id(group_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT id, title, description, status, deadline, stage_id FROM tasks WHERE group_id = ?", (group_id,))
+    # 1. Сначала получаем саму группу
+    cursor.execute("SELECT * FROM groups WHERE id = ?", (group_id,))
     group = cursor.fetchone()
+
+    # Если группы нет — возвращаем None
     if not group:
         conn.close()
         return None
 
+    # Превращаем группу в словарь
     result = dict(group)
 
-    # Получаем участников
+    # 2. Получаем участников
     cursor.execute("SELECT id, name, phone, role FROM users WHERE group_id = ?", (group_id,))
     users = cursor.fetchall()
     result["members"] = [dict(user) for user in users]
 
-    # Получаем задачи
-    cursor.execute("SELECT id, title, description, status, deadline FROM tasks WHERE group_id = ?", (group_id,))
+    # 3. Получаем задачи
+    cursor.execute("SELECT id, title, description, status, deadline, stage_id FROM tasks WHERE group_id = ?",
+                   (group_id,))
     tasks = cursor.fetchall()
     result["tasks"] = [dict(task) for task in tasks]
 
-    # Получаем этапы
+    # 4. Получаем этапы
     cursor.execute("SELECT id, name, is_done FROM stages WHERE group_id = ?", (group_id,))
     stages = cursor.fetchall()
     result["stages"] = [dict(stage) for stage in stages]
