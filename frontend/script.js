@@ -146,8 +146,6 @@ function updateAllSelects(selectedId) {
         const select = document.getElementById(id);
         if (select) {
             select.value = selectedId;
-            // Триггерим событие change для загрузки данных
-            select.dispatchEvent(new Event('change'));
         }
     });
 }
