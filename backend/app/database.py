@@ -95,7 +95,9 @@ def init_db():
             status TEXT DEFAULT 'pending',              -- 'pending' или 'completed'       
             deadline DATE,           
             group_id INTEGER NOT NULL,
-            FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE
+            stage_id INTEGER,
+            FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE,
+            FOREIGN KEY (stage_id) REFERENCES stages (id) ON DELETE SET NULL
         )
     ''')
 

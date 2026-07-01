@@ -75,6 +75,7 @@ class TaskCreate(BaseModel):
     description: Optional[str] = None
     deadline: Optional[date] = None
     group_id: int
+    stage_id: Optional[int] = None
 
 
 class TaskUpdate(BaseModel):
@@ -185,7 +186,8 @@ def create_task(task_data: TaskCreate):
         task_data.title,
         task_data.description,
         task_data.deadline,
-        task_data.group_id
+        task_data.group_id,
+        task_data.stage_id
     )
 
 

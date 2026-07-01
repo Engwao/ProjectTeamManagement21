@@ -68,7 +68,7 @@ def get_group_by_id(group_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM groups WHERE id = ?", (group_id,))
+    cursor.execute("SELECT id, title, description, status, deadline, stage_id FROM tasks WHERE group_id = ?", (group_id,))
     group = cursor.fetchone()
     if not group:
         conn.close()
@@ -166,14 +166,14 @@ def delete_user(user_id):
 
 # ===== 3. ФУНКЦИИ ДЛЯ РАБОТЫ С ЗАДАЧАМИ =====
 
-def add_task(title, description, deadline, group_id):
+def add_task(title, description, deadline, group_id, stage_id=None):
     """Создаёт новую задачу"""
     conn = get_db_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO tasks (title, description, deadline, group_id) VALUES (?, ?, ?, ?)",
-        (title, description, deadline, group_id)
+        "INSERT INTO tasks (title, description, deadline, group_id, stage_id) VALUES (?, ?, ?, ?, ?)",
+        (title, description, deadline, group_id, stage_id)
     )
     conn.commit()
 
