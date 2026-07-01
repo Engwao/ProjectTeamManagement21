@@ -328,6 +328,6 @@ def get_js():
     return FileResponse("script.js")
 
 
-@app.get("/")
+@app.get("/frontend/index.html")
 def get_index():
     return FileResponse("index.html")
